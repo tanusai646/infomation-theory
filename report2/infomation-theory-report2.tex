@@ -12,14 +12,14 @@
 \usepackage{here}
 \usepackage{wrapfig}
 \usepackage{tikz}
-% 使用する関数の宣言
-% （最低限これさえ宣言していれば十分だと思われるものを書いています）
+\usepackage{color}
 \usetikzlibrary{intersections, calc, arrows, positioning, arrows.meta}
 
 
 \newcommand{\Add}[1]{\textcolor{red}{#1}}
 \newcommand{\Erase}[1]{\textcolor{red}{\sout{\textcolor{black}{#1}}}}
 \newcommand{\ctext}[1]{\raise0.2ex\hbox{\textcircled{\scriptsize{#1}}}}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
 
 \lstset{
   basicstyle={\small},
@@ -30,64 +30,104 @@
 }
 
 \begin{document}
-\title{情報理論 第8回 計算機演習}
+\title{情報理論 第14回 計算機演習}
 \author{222C1021 今村優希}
 \maketitle
 
 \newpage
 
 \section*{演習1}
+\subsection*{演習1-1}
+IMのASCIIコードを符号化する．
 
-\begin{figure}[H]
-  \begin{center}
-    \includegraphics*[scale=0.5]{figure/1-1.png}
-  \end{center}
-  \caption{2つの情報源の発生確率}
-  \label{fig:1-1}
-\end{figure}
+\begin{itemize}
+  \item I : 0100 1001
+  \item M : 0100 1101
+\end{itemize}
 
-上記の図\ref*{fig:1-1}の2つの情報源の値から相互情報量を求める．
-まずは，それぞれの周辺確率を求める．
+(7,4)ハミング符号なので，4bitずつ符号化を行う．
+また，検査ビットを式\ref*{sq:1-1}と設定する．
+\begin{equation}
+  \left\{ \,
+    \begin{aligned}
+      &c_1 = a_1 \oplus a_2 \oplus a_3 \\
+      &c_2 = a_2 \oplus a_3 \oplus a_4 \\
+      &c_3 = a_1 \oplus a_2 \oplus a_4 
+    \end{aligned}
+  \right.
+  \label{sq:1-1}
+\end{equation}
+
+\paragraph*{0100の符号化}
+式\ref*{sq:1-1}を利用して$c_1$から$c_3$まで求めると，
 \begin{align*}
-  P_X(0) &= \sum_j P_{X, Y}(0, y_j) = P_{X, Y}(0, 0) + P_{X, Y}(0, 1) = 0.55 + 0.05 = 0.60\\
-  P_X(1) &= \sum_j P_{X, Y}(1, y_j) = P_{X, Y}(1, 0) + P_{X, Y}(1, 1) = 0.15 + 0.25 = 0.40\\
-  P_Y(0) &= \sum_i P_{X, Y}(x_i, 0) = P_{X, Y}(0, 0) + P_{X, Y}(1, 0) = 0.55 + 0.15 = 0.70\\
-  P_Y(1) &= \sum_i P_{X, Y}(x_i, 1) = P_{X, Y}(0, 1) + P_{X, Y}(1, 1) = 0.05 + 0.25 = 0.30  
+  c_1 = 1, c_2 = 1, c_3 = 1
 \end{align*}
-この確率から$X, Y$それぞれのエントロピーを求める．
+と検査ビットを計算できる．したがって，送信符号は(0100111)である．
+
+\paragraph*{1001の符号化}
+式\ref*{sq:1-1}を利用して，
 \begin{align*}
-  H(X) &= -0.6\log_2{0.6} - 0.4\log_2{0.4} = 0.442 + 0.529 = 0.971\\
-  H(Y) &= -0.7\log_2{0.7} - 0.3\log_2{0.3} = 0.881
+  c_1 = 1, c_2 = 1, c_3 = 0
 \end{align*}
-さらに，周辺確率から条件確率$P_{X|Y}(x_i|y_j)=\dfrac{P_{X,Y}(x_i,y_j)}{P_Y(y_j)}$を求める．
+と計算ビット計算できる．したがって，送信符号は(1001110)である．
+
+\paragraph*{0100の符号化}
+式\ref*{sq:1-1}を利用して，
 \begin{align*}
-  P_{X|Y}(0|0) &= \dfrac{P_{X,Y}(0,0)}{P_Y(0)}= \dfrac{0.55}{0.7} = 0.786\\
-  P_{X|Y}(0|1) &= \dfrac{P_{X,Y}(0,1)}{P_Y(1)}= \dfrac{0.05}{0.3} = 0.167\\
-  P_{X|Y}(1|0) &= \dfrac{P_{X,Y}(1,0)}{P_Y(0)}= \dfrac{0.15}{0.7} = 0.214\\
-  P_{X|Y}(0|0) &= \dfrac{P_{X,Y}(1,1)}{P_Y(1)}= \dfrac{0.25}{0.3} = 0.833
+  c_1 = 1, c_2 = 1, c_3 = 1
 \end{align*}
-これを用いて条件付きエントロピーを求める．
-先に，$H(X|Y=0)$と$H(X|Y=1)$を求める．
+と検査ビットが計算できる．したがって，送信符号は(0100111)である．
+
+\paragraph*{1101の符号化}
+式\ref*{sq:1-1}を利用して，
 \begin{align*}
-  H(X|Y=0) &= -P_{X|Y}(0|0) \log_2 P_{X|Y}(0|0) - P_{X|Y}(1|0) \log_2 P_{X|Y}(1|0)\\
-  &= -0.786 \log_2 0.786 - 0.214 \log_2 0.214\\
-  &= 0.749\\
-  H(X|Y=1) &= -P_{X|Y}(0|1) \log_2 P_{X|Y}(0|1) - P_{X|Y}(1|1) \log_2 P_{X|Y}(1|1)\\
-  &= -0.167 \log_2 0.167 - 0.833 \log_2 0.833\\
-  &= 0.651
+  c_1 = 0, c_2 = 0, c_3 = 1
 \end{align*}
-\begin{align*}
-  H(X|Y) &= \sum_j P_Y(y_i)H(X|Y=y_i)\\
-  &= P_Y(0)H(X|Y=0) + P_Y(1)H(X|Y=1)\\
-  &= 0.7 \cdot 0.749 + 0.3 \cdot 0.651
-  &= 0.720
-\end{align*}
-以上の結果から，相互情報量$I(X;Y)$を求めると，
-\begin{align*}
-  I(X;Y) = H(X) - (X|Y) = 0.971 - 0.720 = 0.251
-\end{align*}
-したがって，相互情報量$I(X;Y)$は，$0.251$である．
+と検査ビット計算できる．したがって，送信符号は(1101001)である．
+
+以上から，送信される符号は，(0100111 1001110 0100111 1101001)となる．
+
+\subsection*{演習1-2}
+自分の学籍番号の下一桁+1番目と11番目のbitに誤りが発生すると仮定するので，受信符号は
+\begin{center}
+  (0\red{0}00111 100\red{0}110 0100111 1101001)
+\end{center}
+である．誤りが発生した部分を赤文字で表している．
 \newpage
+
+また，シーケンスは
+\begin{equation}
+  \left\{ \,
+    \begin{aligned}
+      &s_1 = a_1 \oplus a_2 \oplus a_3 \oplus c_1\\
+      &s_2 = a_2 \oplus a_3 \oplus a_4 \oplus c_2\\
+      &s_3 = a_1 \oplus a_2 \oplus a_4 \oplus c_3
+    \end{aligned}
+  \right.
+  \label{sq:1-2}
+\end{equation}
+で計算できる．
+このシーケンスから得られるエラーテーブルを表\ref*{tb:1-1}に表す．
+\begin{table}[H]
+  \begin{center}
+    \caption{エラーテーブル}
+    \label{tb:1-1}
+    \begin{tabular}{|ccccccc|c|} \hline
+     $e_1$ & $e_2$ & $e_3$ & $e_4$ & $e_5$ & $e_6$ & $e_7$ & $s_1 s_2 s_3$ \\ \hline
+     0 & 0 & 0 & 0 & 0 & 0 & 0 & 000 \\ 
+     1 & 0 & 0 & 0 & 0 & 0 & 0 & 101 \\ 
+     0 & 1 & 0 & 0 & 0 & 0 & 0 & 111 \\ 
+     0 & 0 & 1 & 0 & 0 & 0 & 0 & 110 \\ 
+     0 & 0 & 0 & 1 & 0 & 0 & 0 & 011 \\ 
+     0 & 0 & 0 & 0 & 1 & 0 & 0 & 100 \\ 
+     0 & 0 & 0 & 0 & 0 & 1 & 0 & 010 \\ 
+     0 & 0 & 0 & 0 & 0 & 0 & 1 & 001 \\ \hline
+    \end{tabular}
+  \end{center}
+\end{table}
+
+\paragraph*{0100111の復号化}
 
 \section*{演習2}
 \subsection*{演習2-1}
