@@ -13,6 +13,7 @@
 \usepackage{wrapfig}
 \usepackage{tikz}
 % 使用する関数の宣言
+\usepackage{url}
 % （最低限これさえ宣言していれば十分だと思われるものを書いています）
 \usetikzlibrary{intersections, calc, arrows, positioning, arrows.meta}
 
@@ -604,7 +605,7 @@ zip圧縮はwindows標準搭載のものを使用した．
 圧縮率の比較を行う．比較した結果を表\ref*{tb:4-3}にまとめた．
 圧縮率は
 \begin{align*}
-  圧縮率 = \dfrac{圧縮前のファイル容量}{圧縮後のファイル容量}
+  圧縮率 = \dfrac{圧縮後のファイル容量}{圧縮前のファイル容量}
 \end{align*}
 で計算を行った．
 \begin{table}[h]
@@ -627,12 +628,16 @@ zip圧縮はwindows標準搭載のものを使用した．
 一方，文字列に対してjpgやmp3の圧縮率は非常に大きく，効率的に圧縮が行われてないと思われる．
 jpegもmp3もすでに圧縮されたファイルであり，文字列ではないのでZIPでの圧縮が効率的に行われなかったと考えられる．
 
-追記(一回消えたのでバックアップからの出力で一部間違いがあるかも)
+
+\newpage
+\section*{追記}
+一回消えたのでバックアップからの出力した影響で一部間違いがあるかも(2024/6/9)
+written by imamura
 
 \newpage
 \begin{thebibliography}{9}
   \bibitem{1} 奥村晴彦 山崎敏,LHAとZIP : 圧縮アルゴリズム×プログラミング入門, ソフトバンク パブリッシング株式会社, 東京, 2003.
   \bibitem{2} SHARP, デジタルカメラで撮影した画像をZIP形式に圧縮してもファイルサイズが小さくならない Ｑ＆Ａ情報（文書番号：107790）\\
-  https://cs.sharp.co.jp/faq/qa?qid=107790, 参照:20245/19.
+  \url{https://cs.sharp.co.jp/faq/qa?qid=107790}, 参照:20245/19.
 \end{thebibliography}
 \end{document}
