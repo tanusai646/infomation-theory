@@ -10,7 +10,8 @@ import time
 pq = input("pq:")
 pq = int(pq)
 
-start = time.time()     #現在時刻の取得(開始)
+
+start = time.perf_counter_ns()     #現在時刻の取得(開始)
 
 for i in range(2, pq):
     if pq % i == 0:
@@ -18,7 +19,7 @@ for i in range(2, pq):
         q = int(pq / i)
         break
 
-end = time.time()       #現在時刻の取得(終了)
+end = time.perf_counter_ns()       #現在時刻の取得(終了)
 
 time_diff = end - start
 
@@ -26,4 +27,4 @@ time_diff = end - start
 print("pq =",pq)
 print("p", p)
 print("q", q)
-print("Execution time",time_diff)
+print("Execution time is",time_diff/1000000000)
