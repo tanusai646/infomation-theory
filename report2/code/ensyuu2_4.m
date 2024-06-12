@@ -1,3 +1,4 @@
+%% ensyuu2_4.m
 %% 222C1021 今村優希
 %% 情報理論 計算機演習2
 
@@ -5,7 +6,7 @@
 clear,clc,close all;
 
 N = 100000;         %送信bit数
-p = 0.5;            %誤り率の設定
+p = 0.8;            %誤り率の設定
 x0y0 = 0;
 x0y1 = 0;
 x1y0 = 0;
@@ -33,10 +34,10 @@ for i = 1:N
 end
 
 % 各送信受信の数の出力
-fprintf("0 to 0 : %6d\n", x0y0);
-fprintf("0 to 1 : %6d\n", x0y1);
-fprintf("1 to 0 : %6d\n", x1y0);
-fprintf("1 to 1 : %6d\n", x1y1);
+fprintf("0 to 0: %6d\n",x0y0);
+fprintf("0 to 1: %6d\n",x0y1);
+fprintf("1 to 0: %6d\n",x1y0);
+fprintf("1 to 1: %6d\n",x1y1);
 
 % 各確率の出力
 % 結合確率の計算
@@ -66,4 +67,4 @@ Hx = - Px0 .* log2(Px0) - Px1 .* log2(Px1);
 % 相互情報量の計算
 Ixy = Hx - Hxy;
 
-fprintf("H(X;Y) = %6d\n", Hxy);
+fprintf("I(X;Y)= %6d\n", Ixy);

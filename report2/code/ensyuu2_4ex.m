@@ -1,3 +1,4 @@
+%% ensyuu2_4ex.m
 %% 222C1021 今村優希
 %% 情報理論 計算機演習2
 
@@ -74,4 +75,7 @@ for i = 1:99            %エラー確率を変動
 end
 
 scatter(p, Ixy)
+title('Relationship between error probability and mutual information')
+xlabel('p')
+ylabel('I(X;Y)')
 
